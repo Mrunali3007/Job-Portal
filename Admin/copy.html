@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bachat Gatt </title>
+    <style>
+        body {
+            background-image:  url('OIP (2).jpg');
+                  background-repeat: no-repeat;
+                  background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            color: wheat;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            color:black;
+            /* color: rgba(13, 57, 122, 0.473); */
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color:  #4c78afb1;
+            color: wheat;
+            
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color:  #4c78afb1;
+        }
+
+        #resultTable {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+            color: white;
+        }
+
+        #resultTable th, #resultTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #resultTable th {
+            background-color:  #072669e8;
+            color: white;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="color: wheat;">Bachat Gatt</h2>
+    <form id="interestForm">
+        <label for="principal">Principal Amount:</label>
+        <input type="number" id="principal" name="principal" required>
+        <span id="principalError" class="error"></span>
+
+        <label for="interestRate">Interest Rate (%):</label>
+        <input type="number" id="interestRate" name="interestRate" step="0.01" required>
+        <span id="interestRateError" class="error"></span>
+
+        <label for="time">Time (years):</label>
+        <input type="number" id="time" name="time" required>
+        <span id="timeError" class="error"></span>
+
+        <button type="reset" onclick="calculateInterest()">Calculate Simple Interest</button>
+    </form>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Principal Amount</th>
+                <th>Interest Rate</th>
+                <th>Time</th>
+                <th>Simple Interest</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+    </table>
+
+    <script>
+        function validateInput() {
+            var principal = document.getElementById('principal').value;
+            var interestRate = document.getElementById('interestRate').value;
+            var time = document.getElementById('time').value;
+
+            var principalError = document.getElementById('principalError');
+            var interestRateError = document.getElementById('interestRateError');
+            var timeError = document.getElementById('timeError');
+
+            principalError.innerHTML = "";
+            interestRateError.innerHTML = "";
+            timeError.innerHTML = "";
+
+            if (isNaN(principal) || principal <= 0) {
+                principalError.innerHTML = "Please enter a valid principal amount.";
+                return false;
+            }
+
+            if (isNaN(interestRate) || interestRate <= 0) {
+                interestRateError.innerHTML = "Please enter a valid interest rate.";
+                return false;
+            }
+
+            if (isNaN(time) || time <= 0) {
+                timeError.innerHTML = "Please enter a valid time period.";
+                return false;
+            }
+
+            return true;
+        }
+
+        function calculateInterest() {
+            if (validateInput()) {
+                var principal = document.getElementById('principal').value;
+                var interestRate = document.getElementById('interestRate').value;
+                var time = document.getElementById('time').value;
+
+                var simpleInterest = (principal * interestRate * time) / 100;
+
+                var currentDate = new Date();
+                var paymentDate = currentDate.toLocaleDateString();
+
+                var resultBody = document.getElementById('resultBody');
+                var newRow = resultBody.insertRow(resultBody.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+               var cell5 = newRow.insertCell(4);
+               
+                 cell3.innerHTML = paymentDate;
+                cell1.innerHTML = "₹" + principal;
+                cell2.innerHTML = interestRate + "%";
+                cell3.innerHTML = time + " years";
+                cell4.innerHTML = "₹" + simpleInterest.toFixed(2);
+               
+            }
+        }
+    </script>
+</body>
+</html>
